@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>go-fiber-102</title>
+  </head>
+  <body>
+    <div class="show_movie">
+      <script>
+        fetch("localhost:3000/api/v1/movie")
+          .then((res) => {
+            return res.json();
+          })
+          .then((data) => {
+            console.log(data);
+          });
+      </script>
+    </div>
+    <h1>Movie Form</h1>
+    <form action="/api/v1/movie" method="post">
+      <label for="movie_title">Title:</label><br />
+      <input type="text" id="movie_genre" name="title" value="" /><br />
+      <label for="movie_genre">Genre:</label><br />
+      <input type="text" id="movie_genre" name="genre" value="" /><br />
+      <label for="movie_studio">Studio:</label><br />
+      <input type="text" id="movie_studio" name="studio" value="" /><br />
+      <label for="movie_rating">Rating:</label><br />
+      <input
+        type="number"
+        id="movie_rating"
+        name="rating"
+        value=""
+      /><br /><br />
+      <div class="">
+        <input type="submit" value="Submit" />
+        <input type="reset" value="Reset" />
+      </div>
+    </form>
+  </body>
+</html>
