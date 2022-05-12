@@ -15,14 +15,14 @@ import (
 )
 
 type Movie struct {
-	Id        uint
-	Title     string
-	Genre     string
-	Rating    json.Number
-	Studio    string
-	CreatedAt time.Time
-	UpdatedAt time.Time
-	DeletedAt gorm.DeletedAt
+	Id        uint           `from:"id" json:"id" gorm:"primaryKey"`
+	Title     string         `from:"title" json:"title" gorm:"column:title"`
+	Genre     string         `from:"genre" json:"genre" gorm:""`
+	Rating    json.Number    `from:"rating" json:"rating" gorm:""`
+	Studio    string         `from:"studio" json:"studio" gorm:""`
+	CreatedAt time.Time      `from:"created_at" json:"created_at" gorm:"created_at"`
+	UpdatedAt time.Time      `from:"updated_at" json:"updated_at" gorm:""`
+	DeletedAt gorm.DeletedAt `from:"deleted_at" json:"deleted_at" gorm:"index"`
 }
 
 func GetMovies(ctx *fiber.Ctx) (err error) {
@@ -82,6 +82,9 @@ func GetMovieById(ctx *fiber.Ctx) (err error) {
 	db := database.DBConn
 
 	err = db.Where(Movie{Id: uint(intId)}).Find(&movie).Error
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		return ctx.Status(404).SendString("Movie not found")
+	}
 	if err != nil {
 		log.Printf("GetMovie err: %+v", err)
 		ctx.Status(http.StatusInternalServerError)
@@ -258,8 +261,8 @@ func UpdateMovie(ctx *fiber.Ctx) (err error) {
 	}
 
 	db := database.DBConn
-	// dbTx := db.Begin()
-	// defer dbTx.Rollback()
+	dbTx := db.Begin()
+	defer dbTx.Rollback()
 
 	err = db.Where(Movie{Id: uint(intId)}).First(&movie).Error
 	// check if record not found
@@ -294,11 +297,24 @@ func UpdateMovie(ctx *fiber.Ctx) (err error) {
 		return ctx.JSON(fiber.Map{"errors": errResArr})
 	}
 
+	err = dbTx.Commit().Error
+	if err != nil {
+		log.Printf("UpdateBook err: %+v", err)
+		ctx.Status(http.StatusInternalServerError)
+		errResObj := model.ResponseError{
+			Code:    http.StatusInternalServerError,
+			Source:  "UpdateBook",
+			Title:   http.StatusText(http.StatusInternalServerError),
+			Message: err.Error(),
+		}
+		errResArr = append(errResArr, errResObj)
+		return ctx.JSON(fiber.Map{"errors": errResArr})
+	}
+
 	resForm = model.ResponseForm{
 		Success: bool(err == nil),
 		Result:  fiber.Map{"movie": movie},
 	}
 
 	return ctx.JSON(resForm)
-
 }
