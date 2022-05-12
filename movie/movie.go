@@ -81,10 +81,11 @@ func GetMovieById(ctx *fiber.Ctx) (err error) {
 	var movie Movie
 	db := database.DBConn
 
-	err = db.Where(Movie{Id: uint(intId)}).Find(&movie).Error
+	err = db.Where(Movie{Id: uint(intId)}).First(&movie).Error
 	if errors.Is(err, gorm.ErrRecordNotFound) {
 		return ctx.Status(404).SendString("Movie not found")
 	}
+
 	if err != nil {
 		log.Printf("GetMovie err: %+v", err)
 		ctx.Status(http.StatusInternalServerError)
