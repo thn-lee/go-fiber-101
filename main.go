@@ -5,13 +5,13 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
-	"github.com/thn-lee/go-fiber-102/database"
-	"github.com/thn-lee/go-fiber-102/movie"
-	"github.com/thn-lee/go-fiber-102/routers"
+	"github.com/thn-lee/go-fiber-101/database"
+	"github.com/thn-lee/go-fiber-101/movie"
+	"github.com/thn-lee/go-fiber-101/routers"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 	// "./database/database
-	// "github.com/thn-lee/go-fiber-102/movie"
+	// "github.com/thn-lee/go-fiber-101/movie"
 )
 
 func initDatabase() (err error) {

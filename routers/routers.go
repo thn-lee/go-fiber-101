@@ -2,7 +2,7 @@ package routers
 
 import (
 	"github.com/gofiber/fiber/v2"
-	"github.com/thn-lee/go-fiber-102/movie"
+	"github.com/thn-lee/go-fiber-101/movie"
 )
 
 func SetupRoutes(app *fiber.App) {
