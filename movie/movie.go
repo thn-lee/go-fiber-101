@@ -257,6 +257,16 @@ func UpdateMovie(ctx *fiber.Ctx) (err error) {
 		return ctx.JSON(fiber.Map{"errors": errResArr})
 	}
 
+	db := database.DBConn
+	dbTx := db.Begin()
+	defer dbTx.Rollback()
+
+	err = dbTx.Where(Movie{Id: uint(intId)}).First(&movie).Error
+	// check if record not found
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		return ctx.Status(404).SendString("Movie not found")
+	}
+
 	// parse body into movie model
 	if err := ctx.BodyParser(movie); err != nil {
 		log.Printf("UpdateMovie err: %+v", err)
@@ -269,16 +279,6 @@ func UpdateMovie(ctx *fiber.Ctx) (err error) {
 		}
 		errResArr = append(errResArr, errResObj)
 		return ctx.JSON(fiber.Map{"errors": errResArr})
-	}
-
-	db := database.DBConn
-	dbTx := db.Begin()
-	defer dbTx.Rollback()
-
-	err = dbTx.Where(Movie{Id: uint(intId)}).First(&movie).Error
-	// check if record not found
-	if errors.Is(err, gorm.ErrRecordNotFound) {
-		return ctx.Status(404).SendString("Movie not found")
 	}
 
 	if err := dbTx.Where(Movie{Id: uint(intId)}).Updates(&movie).Error; err != nil {

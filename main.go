@@ -10,12 +10,10 @@ import (
 	"github.com/thn-lee/go-fiber-101/routers"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
-	// "./database/database
-	// "github.com/thn-lee/go-fiber-101/movie"
 )
 
 func initDatabase() (err error) {
-	database.DBConn, err = gorm.Open(sqlite.Open("store.db"), &gorm.Config{})
+	database.DBConn, err = gorm.Open(sqlite.Open("theater.db"), &gorm.Config{})
 
 	if err != nil {
 		log.Fatal("failed to connect database(sqlite)")
