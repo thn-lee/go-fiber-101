@@ -1,4 +1,4 @@
-module github.com/thn-lee/go-fiber-102
+module github.com/thn-lee/go-fiber-101
 
 go 1.18
 

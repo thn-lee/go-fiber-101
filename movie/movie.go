@@ -9,8 +9,8 @@ import (
 	"time"
 
 	"github.com/gofiber/fiber/v2"
-	"github.com/thn-lee/go-fiber-102/database"
-	"github.com/thn-lee/go-fiber-102/model"
+	"github.com/thn-lee/go-fiber-101/database"
+	"github.com/thn-lee/go-fiber-101/model"
 	"gorm.io/gorm"
 )
 
