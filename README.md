@@ -1,4 +1,4 @@
-# go-fiber-102
+# go-fiber-101
 for practice
 
 Noted for me :
