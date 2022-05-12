@@ -14,4 +14,4 @@ some commands
 - Go run main.go
 
 etc.
-- Go need gcc (some kind of c complier)
+- Go need gcc (some kind of c complier) to run
