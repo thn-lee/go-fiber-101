@@ -1,4 +1,4 @@
-# go-fiber-102
+# go-fiber-101
 for practice
 
 Noted for me :
@@ -14,4 +14,4 @@ some commands
 - Go run main.go
 
 etc.
-- Go need gcc (some kind of c complier)
+- Go need gcc (some kind of c complier) to run
